@@ -1,0 +1,83 @@
+﻿@model ThemeParkApplication.Models.Route
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h2>Route</h2>
+
+<div>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.ApplicationUser)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.ApplicationUser)
+		</dd>
+	</dl>
+	<a asp-controller="route" asp-action="recalculate" class="btn btn-primary">Recalculate Route</a>
+	<table class="table" style="float: left">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.RouteAttractions)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (ViewBag.UserAttractions != null && ViewBag.UserAttractions.Count > 0)
+			{
+				@foreach (Attraction item in ViewBag.UserAttractions)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.Rating)
+						</td>
+						<td>
+							<a asp-controller="route" asp-action="remove" asp-route-id="@item.Name" class="btn btn-primary">Remove</a>
+						</td>
+
+					</tr>
+				}
+			}
+			<form asp-controller="route" asp-action="index" method="post">
+
+				<tr>
+					<td>
+						@Html.DropDownListFor(model => model.TempAtractionID, new SelectList(ViewBag.Attractions, "AttractionID", "Name"), "Choose an atraction", new { @class = "form-control" })
+					</td>
+					<td>
+						<input type="submit" value="Add" class="btn btn-primary" />
+					</td>
+				</tr>
+			</form>
+		</tbody>
+	</table>
+	<table class="table" style="float: left">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.RouteCafeterias)
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model.RouteCafeterias != null)
+			{
+				@foreach (var item in Model.RouteCafeterias)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => item.Name)
+						</td>
+
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+
+</div>

@@ -1,0 +1,35 @@
+﻿
+@{
+	ViewData["Title"] = "Attraction List";
+}
+
+@model IEnumerable<Attraction>
+
+<h1>Attractions we can offer:</h1>
+<a asp-controller="home" asp-action="index" class="btn btn-primary">Go Back</a>
+@if (User.IsInRole("Admin"))
+{
+	<a asp-controller="attraction" asp-action="create" class="btn btn-primary">Create New</a>
+}
+	<div class="row">
+		@foreach (Attraction attraction in Model)
+		{
+			<div class="col-sm-6 col-md-3">
+				<div class="thumbnail">
+					<img src=@attraction.ImageSrc height="150" width="350">
+					<div class="caption">
+						<h3>@attraction.Name</h3>
+						<p>@attraction.Description</p>
+						<p>
+							<a asp-controller="attraction" asp-action="details" asp-route-id="@attraction.AttractionID" class="btn btn-primary">View</a>
+							@if (User.IsInRole("Admin"))
+							{
+								<a asp-controller="attraction" asp-action="delete" asp-route-id="@attraction.AttractionID" class="btn btn-danger">Delete</a>
+							}
+						</p>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+

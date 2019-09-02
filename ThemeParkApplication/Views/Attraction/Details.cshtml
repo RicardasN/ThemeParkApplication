@@ -1,0 +1,52 @@
+﻿@model Attraction
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row justify-content-center m-3">
+	<div class="col-sm-8">
+		<div class="thumbnail">
+			<div class="card-header">
+				<h1>@Model.Name</h1>
+			</div>
+			<div class="card-body text-center">
+				<img class="card-img-top" src="@Model.ImageSrc"  width="600"/>
+				<p>@Model.Description</p>
+
+				<h4>Attraction ID : @Model.AttractionID</h4>
+				<h4>Location : @Model.Location</h4>
+				<h4>Rating : @Model.Rating.ToString()</h4>
+				@if (Model.IsOpen != null && Model.IsOpen)
+				{
+					<h4 style="color:limegreen;"> Attraction is open and waiting for you</h4>
+				}
+				else
+				{
+					<h4 style="color:red;"> Attraction is currently closed</h4>
+				}
+
+			</div>
+			<div class="card-footer text-center">
+				<a asp-controller="attraction" asp-action="index" class="btn btn-primary">Back</a>
+				@if (User.IsInRole("Admin"))
+				{
+					<a asp-controller="attraction" asp-action="edit" asp-route-id="@Model.AttractionID" class="btn btn-primary">Edit</a>
+					<a asp-controller="attraction" asp-action="delete" asp-route-id="@Model.AttractionID" class="btn btn-danger">Delete</a>
+				}
+				@if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+				{
+					@if (Model.IsOpen)
+					{
+						<a asp-controller="attraction" asp-action="close" asp-route-id="@Model.AttractionID" class="btn btn-primary">Close</a>
+					}
+					else
+					{
+						<a asp-controller="attraction" asp-action="open" asp-route-id="@Model.AttractionID" class="btn btn-primary">Open</a>
+					}
+
+				}
+			</div>
+		</div>
+	</div>
+</div>
+
